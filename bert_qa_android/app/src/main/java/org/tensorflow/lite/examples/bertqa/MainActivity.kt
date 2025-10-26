@@ -24,6 +24,13 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import org.tensorflow.lite.examples.bertqa.databinding.ActivityMainBinding
 
+/**
+ * Main activity for the BERT QA application.
+ * 
+ * This activity sets up the navigation host and toolbar, providing
+ * the main entry point for the application. It manages fragment navigation
+ * between the dataset selection screen and the QA screen.
+ */
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -33,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // setup toolbar
+        // Setup toolbar and navigation
         setSupportActionBar(binding.toolbar)
         val navHostFragment =
             (supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment)
@@ -43,6 +50,11 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
     }
 
+    /**
+     * Handles up navigation from fragments.
+     * 
+     * @return true if navigation was handled, false otherwise
+     */
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.fragment_container)
         return navController.navigateUp(appBarConfiguration)
