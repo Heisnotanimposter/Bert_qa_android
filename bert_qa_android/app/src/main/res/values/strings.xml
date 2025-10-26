@@ -14,21 +14,42 @@
     ~ limitations under the License.
 -->
 <resources>
-    <string name="app_name">TFLite Bert QA Demo App</string>
-    <string name="tv_select_action">Please select an article below.</string>
-    <string name="tv_suggestion">You may want to ask&#8230;</string>
-    <string name="tv_setting_options">Model options</string>
+    <!-- App name -->
+    <string name="app_name">BERT QA Assistant</string>
+    
+    <!-- Dataset fragment -->
+    <string name="tv_select_action">Select a passage to begin</string>
+    <string name="tv_suggestion">Suggested Questions:</string>
+    <string name="tv_setting_options">Model Configuration</string>
+    
+    <!-- Accessibility labels -->
     <string name="alt_bottom_sheet_chevron">Bottom sheet expandable indicator</string>
     <string name="alt_bottom_sheet_thread_button_minus">Decrease the number of threads used</string>
     <string name="alt_bottom_sheet_thread_button_plus">Increase the number of threads used</string>
+    
+    <!-- Bottom sheet settings -->
     <string name="bottom_sheet_default_num_thread">2</string>
     <string name="bottom_sheet_label_threads">Number of Threads</string>
-    <string name="bottom_sheet_label_delegate">Delegate</string>
+    <string name="bottom_sheet_label_delegate">Acceleration Method</string>
     <string name="bottom_view_inference_time">Inference Time: %d ms</string>
-
+    
+    <!-- Error messages -->
+    <string name="error_gpu_not_supported">GPU acceleration is not available on this device</string>
+    <string name="error_model_load_failed">Failed to load AI model. Please try restarting the app.</string>
+    <string name="error_dataset_load_failed">Failed to load dataset. Please check your connection and try again.</string>
+    
+    <!-- Success messages -->
+    <string name="success_model_loaded">AI model loaded successfully</string>
+    
+    <!-- Delegate options -->
     <string-array name="delegate_spinner_titles">
-        <item>CPU</item>
-        <item>GPU</item>
-        <item>NNAPI</item>
+        <item>CPU (Compatible)</item>
+        <item>GPU (Fastest)</item>
+        <item>NNAPI (Accelerated)</item>
     </string-array>
+    
+    <!-- UI hints -->
+    <string name="hint_enter_question">Enter your question here...</string>
+    <string name="button_ask">Ask Question</string>
+    <string name="loading_processing">Processing question...</string>
 </resources>

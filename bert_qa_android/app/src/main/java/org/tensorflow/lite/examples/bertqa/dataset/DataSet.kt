@@ -17,6 +17,17 @@ package org.tensorflow.lite.examples.bertqa.dataset
 
 import com.google.gson.annotations.SerializedName
 
+/**
+ * Data class representing the question-answering dataset.
+ * 
+ * The dataset structure contains:
+ * - titles: List of passage titles (used for display)
+ * - contents: List of passage contents (full text)
+ * - questions: List of suggested questions for each passage
+ * 
+ * Each list contains nested lists where the first element is the primary
+ * title/content/question, and additional elements may contain variations.
+ */
 data class DataSet(
     @SerializedName("titles")
     private val titles: List<List<String>>,
@@ -25,10 +36,20 @@ data class DataSet(
     @SerializedName("questions")
     val questions: List<List<String>>
 ) {
+    /**
+     * Extracts the primary titles from the nested list structure.
+     * 
+     * @return List of passage titles (first element from each nested list)
+     */
     fun getTitles(): List<String> {
         return titles.map { it[0] }
     }
 
+    /**
+     * Extracts the primary content passages from the nested list structure.
+     * 
+     * @return List of passage contents (first element from each nested list)
+     */
     fun getContents(): List<String> {
         return contents.map { it[0] }
     }
