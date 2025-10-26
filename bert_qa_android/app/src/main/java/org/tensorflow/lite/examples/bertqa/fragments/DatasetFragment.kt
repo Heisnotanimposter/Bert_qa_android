@@ -27,46 +27,80 @@ import org.tensorflow.lite.examples.bertqa.R
 import org.tensorflow.lite.examples.bertqa.databinding.FragmentDatasetBinding
 import org.tensorflow.lite.examples.bertqa.dataset.LoadDataSetClient
 
+/**
+ * Fragment that displays a list of available passages from the dataset.
+ * 
+ * This is the first screen users see when launching the app. It loads and displays
+ * the titles of all available passages from the SQuAD dataset. When a user taps
+ * on a passage, they are navigated to the QaFragment where they can ask questions
+ * about that passage.
+ */
 class DatasetFragment : Fragment() {
 
+    // View binding for type-safe view access
     private var _fragmentDatasetList: FragmentDatasetBinding? = null
     private val fragmentDatasetList get() = _fragmentDatasetList!!
-    private var titles : List<String> = emptyList()
+    
+    // List of passage titles to display
+    private var titles: List<String> = emptyList()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _fragmentDatasetList = FragmentDatasetBinding.inflate(inflater, container, false)
-
         return fragmentDatasetList.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        
+        // Load dataset from JSON file
+        loadDataset()
+        
+        // Initialize the RecyclerView with passage titles
+        initRecyclerView()
+    }
+
+    /**
+     * Loads the dataset from the JSON file in assets folder.
+     * Extracts titles for display in the list.
+     */
+    private fun loadDataset() {
         val client = LoadDataSetClient(requireActivity())
         client.loadJson()?.let {
             titles = it.getTitles()
         }
-        initRecyclerView()
     }
 
+    /**
+     * Initializes the RecyclerView with the dataset adapter.
+     * Sets up layout manager, adapter, and item decorations.
+     */
     private fun initRecyclerView() {
-            val dataSetAdapter = DatasetAdapter(titles) {
-                startQaScreen(it)
-            }
-            val linearLayoutManager = LinearLayoutManager(requireContext())
-            val decoration = DividerItemDecoration(
-                fragmentDatasetList.recyclerView.context,
-                linearLayoutManager.orientation
-            )
-            with(fragmentDatasetList.recyclerView) {
-                layoutManager = linearLayoutManager
-                adapter = dataSetAdapter
-                addItemDecoration(decoration)
-            }
+        val dataSetAdapter = DatasetAdapter(titles) { position ->
+            startQaScreen(position)
+        }
+        
+        val linearLayoutManager = LinearLayoutManager(requireContext())
+        val decoration = DividerItemDecoration(
+            fragmentDatasetList.recyclerView.context,
+            linearLayoutManager.orientation
+        )
+        
+        with(fragmentDatasetList.recyclerView) {
+            layoutManager = linearLayoutManager
+            adapter = dataSetAdapter
+            addItemDecoration(decoration)
+        }
     }
 
+    /**
+     * Navigates to the QA screen for the selected passage.
+     * 
+     * @param position Index of the selected passage in the dataset
+     */
     private fun startQaScreen(position: Int) {
         val action = DatasetFragmentDirections.actionDatasetFragmentToQaFragment(position)
         Navigation.findNavController(requireActivity(), R.id.fragment_container)
